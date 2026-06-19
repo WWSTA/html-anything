@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HTML Anything — 模板查找器 · Template Explorer</title>
+  <meta name="description" content="浏览、搜索和收藏 78 套精心设计的 HTML 模板。涵盖文档、演示文稿、海报、社交卡片、仪表盘、数据报告等 13 大类。" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+  <!-- ============ HEADER ============ -->
+  <header class="site-header" role="banner">
+    <div class="container header-inner">
+      <a href="https://nexu-io.github.io/html-anything/" class="brand" aria-label="HTML Anything">
+        <span class="brand-mark" aria-hidden="true">◐</span>
+        <span class="brand-text">
+          <strong>HTML Anything</strong>
+          <small>Template Explorer · 模板查找器</small>
+        </span>
+      </a>
+      <nav class="primary-nav" aria-label="主导航">
+        <a href="#templates" class="nav-link">模板</a>
+        <a href="#favorites" class="nav-link nav-fav">
+          <span aria-hidden="true">★</span>
+          <span>我的收藏</span>
+          <span class="fav-count" id="favCount">0</span>
+        </a>
+        <a href="#help" class="nav-link">使用说明</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ============ HERO ============ -->
+  <section class="hero" aria-label="页面介绍">
+    <div class="container hero-inner">
+      <p class="hero-meta">
+        <span class="badge badge-featured">Agent Native</span>
+        <span class="hero-dot">·</span>
+        <span id="templateCount">78</span> 套模板 · 13 个分类 · 270 个标签
+      </p>
+      <h1 class="hero-title">
+        Markdown 是草稿，<br/>
+        <span class="hero-accent">HTML</span> 才是给人读的成品。
+      </h1>
+      <p class="hero-subtitle">
+        一套面向 Agent 的模板库 — 从简历、报告、PPT 到海报、社交卡片与仪表盘。
+        先挑一张你最喜欢的风格，把你的内容直接套进去。
+      </p>
+
+      <div class="hero-search" role="search">
+        <label for="searchInput" class="visually-hidden">搜索模板</label>
+        <div class="search-box">
+          <span class="search-icon" aria-hidden="true">⌕</span>
+          <input
+            type="text"
+            id="searchInput"
+            class="search-input"
+            placeholder="按名称 / 描述 / 标签搜索 — 试试「简历」「PPT」「小红书」「数据报告」…"
+            autocomplete="off"
+            spellcheck="false"
+          />
+          <button type="button" class="search-clear" id="searchClear" aria-label="清除搜索" hidden>×</button>
+          <kbd class="search-kbd" aria-hidden="true">/</kbd>
+        </div>
+      </div>
+
+      <div class="hero-stats" aria-label="快速统计">
+        <div class="stat"><strong id="docCount">0</strong><span>文档</span></div>
+        <div class="stat"><strong id="slidesCount">0</strong><span>演示</span></div>
+        <div class="stat"><strong id="posterCount">0</strong><span>海报</span></div>
+        <div class="stat"><strong id="protoCount">0</strong><span>原型</span></div>
+        <div class="stat"><strong id="dataCount">0</strong><span>数据</span></div>
+        <div class="stat"><strong id="cardCount">0</strong><span>卡片</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ MAIN ============ -->
+  <main class="container main" id="templates">
+
+    <!-- ============ FILTER SIDEBAR ============ -->
+    <aside class="filters" aria-label="模板筛选">
+      <div class="filters-header">
+        <h2 class="filters-title">筛选</h2>
+        <button type="button" class="filters-reset" id="resetFilters">清空</button>
+      </div>
+
+      <div class="filter-group">
+        <div class="filter-group-header">
+          <h3>分类</h3>
+          <span class="filter-count" id="activeCategoryCount">0</span>
+        </div>
+        <div class="chip-grid" id="categoryChips" role="list"></div>
+      </div>
+
+      <div class="filter-group">
+        <div class="filter-group-header">
+          <h3>场景</h3>
+          <span class="filter-count" id="activeScenarioCount">0</span>
+        </div>
+        <div class="chip-grid" id="scenarioChips" role="list"></div>
+      </div>
+
+      <div class="filter-group">
+        <div class="filter-group-header">
+          <h3>热门标签</h3>
+          <span class="filter-count" id="activeTagCount">0</span>
+        </div>
+        <div class="chip-grid tag-grid" id="tagChips" role="list"></div>
+      </div>
+
+      <div class="filter-group">
+        <h3>只有带示例的模板</h3>
+        <label class="checkbox">
+          <input type="checkbox" id="filterExamples" />
+          <span class="checkbox-box" aria-hidden="true"></span>
+          <span>仅显示附 example.html 的模板</span>
+        </label>
+      </div>
+
+      <div class="filter-group filter-featured">
+        <label class="checkbox">
+          <input type="checkbox" id="filterFeatured" />
+          <span class="checkbox-box" aria-hidden="true"></span>
+          <span>只看精选推荐</span>
+        </label>
+      </div>
+    </aside>
+
+    <!-- ============ CONTENT ============ -->
+    <section class="content" aria-label="模板列表">
+
+      <!-- Result Header -->
+      <div class="result-header">
+        <div class="result-info">
+          <p class="result-count">
+            共找到 <strong id="resultCount">0</strong> 个模板
+            <span class="result-subcount" id="resultSubcount"></span>
+          </p>
+          <div class="active-filters" id="activeFilters" aria-label="当前筛选条件"></div>
+        </div>
+
+        <div class="result-tools">
+          <label class="sort-label" for="sortSelect">排序</label>
+          <select id="sortSelect" class="sort-select" aria-label="排序方式">
+            <option value="featured">精选优先</option>
+            <option value="name">名称 A → Z</option>
+            <option value="name-desc">名称 Z → A</option>
+            <option value="category">按分类</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Templates Grid / List -->
+      <div id="templateContainer" class="template-grid" role="list" aria-live="polite"></div>
+
+      <!-- Empty State -->
+      <div id="emptyState" class="empty-state" hidden>
+        <div class="empty-state-inner">
+          <div class="empty-state-emoji" aria-hidden="true">🔍</div>
+          <h3>没有找到匹配的模板</h3>
+          <p>试试调整搜索关键词，或者清除筛选条件。</p>
+          <button type="button" class="btn btn-primary" id="resetFromEmpty">清空所有筛选</button>
+        </div>
+      </div>
+
+      <!-- Loading -->
+      <div id="loadingState" class="loading-state">
+        <div class="loader" aria-hidden="true"></div>
+        <p>正在加载模板…</p>
+      </div>
+
+    </section>
+  </main>
+
+  <!-- ============ HELP / USAGE SECTION ============ -->
+  <section class="help-section container" id="help">
+    <header class="help-header">
+      <h2>使用说明</h2>
+      <p class="help-subtitle">三步把你的文字变成读者想看的成品</p>
+    </header>
+
+    <div class="help-grid">
+      <article class="help-card">
+        <div class="help-step" aria-hidden="true">1</div>
+        <h3>挑一张模板</h3>
+        <p>根据你手上的内容类型（长文本、数据、PPT、社交素材），选最合适的视觉风格。每张模板都附了 <code>SKILL.md</code> 详细说明和 <code>example.html</code> 成品示例。</p>
+        <ul class="help-list">
+          <li>按「分类」快速缩小范围</li>
+          <li>用「场景」匹配你的工作场景</li>
+          <li>按标签精确查找具体风格</li>
+        </ul>
+      </article>
+
+      <article class="help-card">
+        <div class="help-step" aria-hidden="true">2</div>
+        <h3>看模板详情</h3>
+        <p>点击任意模板卡片查看完整信息，包括配色方案、字体栈、布局结构、硬性设计约束，以及最关键的示例输入 / 输出。</p>
+        <ul class="help-list">
+          <li>阅读视觉签名（颜色、字体、间距）</li>
+          <li>看 example.html 成品效果</li>
+          <li>了解适合的输入内容格式</li>
+        </ul>
+      </article>
+
+      <article class="help-card">
+        <div class="help-step" aria-hidden="true">3</div>
+        <h3>生成你自己的 HTML</h3>
+        <p>把你的真实内容（Markdown / CSV / JSON / 纯文本）交给 AI，套用选中模板的约束即可生成可直接分享的成品 HTML。</p>
+        <ul class="help-list">
+          <li>不编造数据，只用用户真实输入</li>
+          <li>单文件 HTML，不依赖外部资源</li>
+          <li>支持打印为 PDF、导出 PNG</li>
+        </ul>
+      </article>
+    </div>
+
+    <div class="help-footer">
+      <div class="help-tip">
+        <strong>💡 小贴士：</strong> 拿不定主意时，通用文档优先用 <a href="#doc-kami-parchment" class="inline-link">doc-kami-parchment</a>，PPT 优先用 <a href="#deck-swiss-international" class="inline-link">deck-swiss-international</a>，海报类优先用 <a href="#magazine-poster" class="inline-link">magazine-poster</a>。
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="container footer-inner">
+      <div class="footer-brand-area">
+        <div class="footer-brand">
+          <span class="brand-mark" aria-hidden="true">◐</span>
+          <div>
+            <strong>HTML Anything</strong>
+            <small>Template Explorer</small>
+          </div>
+        </div>
+        <p class="footer-tagline">Agent 时代的 HTML 编辑器 — 把 Markdown 草稿变成给人读的成品。</p>
+      </div>
+      <div class="footer-source">
+        <p>在线体验 <a href="https://nexu-io.github.io/html-anything/" class="footer-link">HTML Anything</a> · 源码 <a href="https://github.com/nexu-io/html-anything" class="footer-link">nexu-io/html-anything</a> · Apache-2.0 License</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============ TEMPLATE DETAIL MODAL ============ -->
+  <div
+    id="templateModal"
+    class="modal"
+    role="dialog"
+    aria-labelledby="modalTitle"
+    aria-modal="true"
+    hidden
+  >
+    <div class="modal-backdrop" data-close-modal></div>
+    <div class="modal-dialog" role="document">
+      <button type="button" class="modal-close" aria-label="关闭详情" data-close-modal>×</button>
+      <div class="modal-content" id="modalContent"></div>
+    </div>
+  </div>
+
+  <!-- ============ TOAST ============ -->
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
