@@ -5,9 +5,8 @@
   'use strict';
 
   // ── GitHub Pages 配置 ──
-  // 模板源文件基础路径（jsdelivr CDN，自动适配 GitHub 仓库）
-  // 格式: https://cdn.jsdelivr.net/gh/{owner}/{repo}@{branch}/{path-to-skills}/
-  var SKILLS_BASE = 'https://cdn.jsdelivr.net/gh/nexu-io/html-anything@main/html-anything-main/next/src/lib/templates/skills/';
+  // 模板源文件基础路径（本地静态文件，已迁移至 templates/ 目录）
+  var SKILLS_BASE = 'templates/';
 
   // ---------- State ----------
   var state = {
@@ -78,7 +77,7 @@
       return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
     });
   }
-  function skillsUrl(id, file) { return SKILLS_BASE + encodeURIComponent(id) + '/' + file; }
+  function skillsUrl(id, file) { return SKILLS_BASE + id + '/' + file; }
 
   function showToast(msg, duration) {
     var toast = $('#toast');
